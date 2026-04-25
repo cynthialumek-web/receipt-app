@@ -1,5 +1,5 @@
 let db;
-let products = [];
+let productsLoaded = false;
 
 const SHEET_ID = "1jZoAzytMejjdPgRlpgDkOasQHXUAwGJEsvk1UCI9Qcc";
 
@@ -34,14 +34,22 @@ function loadClients() {
 function loadProducts() {
   db.transaction("products").objectStore("products").getAll().onsuccess = e => {
     products = e.target.result || [];
+
+    productsLoaded = true; // ✅ ADD THIS LINE
+
+    console.log("Products loaded:", products);
   };
 }
 
 // ---------- ITEMS ----------
 
 function addItem() {
-  const div = document.createElement("div");
-  div.className = "item";
+  if (!productsLoaded) {
+    alert("Products are still loading. Try syncing or wait a second.");
+    return;
+  }
+
+  // rest of your function continues below...
 
   div.innerHTML = `
     <select>
