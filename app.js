@@ -44,11 +44,6 @@ function loadProducts() {
 // ---------- ITEMS ----------
 
 function addItem() {
-  if (!productsLoaded) {
-    alert("Products still loading...");
-    return;
-  }
-
   const div = document.createElement("div");
   div.className = "item";
 
@@ -61,17 +56,20 @@ function addItem() {
       `).join("")}
     </select>
 
-    <input type="number" value="1" min="1">
+    <input type="number" value="1">
     <span class="lineTotal">$0.00</span>
   `;
 
   document.getElementById("items").appendChild(div);
 
   const select = div.querySelector("select");
-  const input = div.querySelector("input");
 
-  select.addEventListener("change", updateTotal);
-  input.addEventListener("input", updateTotal);
+  if (!select.tomselect) {
+    new TomSelect(select);
+  }
+
+  div.querySelector("input").addEventListener("input", updateTotal);
+  div.querySelector("select").addEventListener("change", updateTotal);
 
   updateTotal();
 }
