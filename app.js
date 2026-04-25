@@ -45,14 +45,15 @@ function loadProducts() {
 
 function addItem() {
   if (!productsLoaded) {
-    alert("Products are still loading. Try syncing or wait a second.");
+    alert("Products still loading...");
     return;
   }
 
-  // rest of your function continues below...
+  const div = document.createElement("div");
+  div.className = "item";
 
   div.innerHTML = `
-    <select>
+    <select class="product">
       ${products.map(p => `
         <option data-price="${p.price}">
           ${p.name}
@@ -81,16 +82,19 @@ function updateTotal() {
   let total = 0;
 
   document.querySelectorAll(".item").forEach(item => {
-    const select = item.querySelector("select");
+    const select = item.querySelector("select.product");
     const input = item.querySelector("input");
 
-    // 🛑 skip broken rows safely
-    if (!select || !input) return;
+    // 🚨 skip broken rows safely
+    if (!select || !input) {
+      console.warn("Broken item detected:", item);
+      return;
+    }
 
-    const qty = Number(input.value) || 0;
+    const qty = Number(input.value || 0);
 
-    const option = select.options[select.selectedIndex];
-    const price = Number(option?.dataset?.price || 0);
+    const selectedOption = select.options[select.selectedIndex];
+    const price = Number(selectedOption?.dataset?.price || 0);
 
     const lineTotal = price * qty;
 
