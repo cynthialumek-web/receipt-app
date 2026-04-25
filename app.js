@@ -74,22 +74,28 @@ function updateTotal() {
 
   document.querySelectorAll(".item").forEach(item => {
     const select = item.querySelector("select");
-    const qty = parseFloat(item.querySelector("input").value);
+    const qtyInput = item.querySelector("input");
 
-    const price = parseFloat(
-      select.selectedOptions[0].dataset.price
-    );
+    const qty = Number(qtyInput.value) || 0;
+
+    const selectedOption = select.options[select.selectedIndex];
+    const price = Number(selectedOption.dataset.price || 0);
 
     const lineTotal = price * qty;
 
-    item.querySelector(".lineTotal").innerText =
-      `$${lineTotal.toFixed(2)}`;
+    // update line display
+    const lineEl = item.querySelector(".lineTotal");
+    if (lineEl) {
+      lineEl.textContent = `$${lineTotal.toFixed(2)}`;
+    }
 
     total += lineTotal;
   });
 
-  document.getElementById("total").innerText =
-    `Total: $${total.toFixed(2)}`;
+  const totalEl = document.getElementById("total");
+  if (totalEl) {
+    totalEl.textContent = `Total: $${total.toFixed(2)}`;
+  }
 }
 
 // ---------- SAVE ----------
