@@ -46,10 +46,8 @@ function addItem() {
   div.innerHTML = `
     <select class="product">
       ${products.map(p => `
-        <option 
-          data-price="${p.price}" 
-          value="${p.name}">
-          ${p.name} - $${p.price}
+        <option data-price="${p.price}">
+          ${p.name}
         </option>
       `).join("")}
     </select>
@@ -60,9 +58,9 @@ function addItem() {
 
   document.getElementById("items").appendChild(div);
 
-  div.querySelectorAll("select, input").forEach(el =>
-    el.addEventListener("change", updateTotal)
-  );
+  // IMPORTANT: force recalculation on change
+  div.querySelector("select").addEventListener("change", updateTotal);
+  div.querySelector("input").addEventListener("input", updateTotal);
 
   updateTotal();
 }
