@@ -44,7 +44,7 @@ function addItem() {
   div.className = "item";
 
   div.innerHTML = `
-    <select class="product">
+    <select>
       ${products.map(p => `
         <option data-price="${p.price}">
           ${p.name}
@@ -58,8 +58,11 @@ function addItem() {
 
   document.getElementById("items").appendChild(div);
 
-  div.querySelector("select").addEventListener("change", updateTotal);
-  div.querySelector("input").addEventListener("input", updateTotal);
+  const select = div.querySelector("select");
+  const input = div.querySelector("input");
+
+  select.addEventListener("change", updateTotal);
+  input.addEventListener("input", updateTotal);
 
   updateTotal();
 }
@@ -71,16 +74,22 @@ function updateTotal() {
 
   document.querySelectorAll(".item").forEach(item => {
     const select = item.querySelector("select");
-    const qty = Number(item.querySelector("input").value) || 0;
+    const input = item.querySelector("input");
 
-    const price = Number(
-      select.options[select.selectedIndex].dataset.price
-    ) || 0;
+    // 🛑 skip broken rows safely
+    if (!select || !input) return;
+
+    const qty = Number(input.value) || 0;
+
+    const option = select.options[select.selectedIndex];
+    const price = Number(option?.dataset?.price || 0);
 
     const lineTotal = price * qty;
 
-    item.querySelector(".lineTotal").textContent =
-      `$${lineTotal.toFixed(2)}`;
+    const lineEl = item.querySelector(".lineTotal");
+    if (lineEl) {
+      lineEl.textContent = `$${lineTotal.toFixed(2)}`;
+    }
 
     total += lineTotal;
   });
