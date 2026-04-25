@@ -73,15 +73,24 @@ function updateTotal() {
   let total = 0;
 
   document.querySelectorAll(".item").forEach(item => {
-    const price = parseFloat(item.querySelector("select").value);
+    const select = item.querySelector("select");
     const qty = parseFloat(item.querySelector("input").value);
-    total += price * qty;
+
+    const price = parseFloat(
+      select.selectedOptions[0].dataset.price
+    );
+
+    const lineTotal = price * qty;
+
+    item.querySelector(".lineTotal").innerText =
+      `$${lineTotal.toFixed(2)}`;
+
+    total += lineTotal;
   });
 
-  document.getElementById("total").innerText = `Total: $${total.toFixed(2)}`;
+  document.getElementById("total").innerText =
+    `Total: $${total.toFixed(2)}`;
 }
-
-document.addEventListener("change", updateTotal);
 
 // ---------- SAVE ----------
 
