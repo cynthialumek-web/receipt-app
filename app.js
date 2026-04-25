@@ -71,20 +71,16 @@ function updateTotal() {
 
   document.querySelectorAll(".item").forEach(item => {
     const select = item.querySelector("select");
-    const qtyInput = item.querySelector("input");
+    const qty = Number(item.querySelector("input").value) || 0;
 
-    const qty = Number(qtyInput.value) || 0;
-
-    const selectedOption = select.options[select.selectedIndex];
-    const price = Number(selectedOption.dataset.price || 0);
+    const price = Number(
+      select.options[select.selectedIndex].dataset.price
+    ) || 0;
 
     const lineTotal = price * qty;
 
-    // update line display
-    const lineEl = item.querySelector(".lineTotal");
-    if (lineEl) {
-      lineEl.textContent = `$${lineTotal.toFixed(2)}`;
-    }
+    item.querySelector(".lineTotal").textContent =
+      `$${lineTotal.toFixed(2)}`;
 
     total += lineTotal;
   });
@@ -94,7 +90,6 @@ function updateTotal() {
     totalEl.textContent = `Total: $${total.toFixed(2)}`;
   }
 }
-
 // ---------- SAVE ----------
 
 function saveReceipt() {
