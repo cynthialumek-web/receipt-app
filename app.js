@@ -33,7 +33,7 @@ function loadClients() {
 
 function loadProducts() {
   db.transaction("products").objectStore("products").getAll().onsuccess = e => {
-    products = e.target.result;
+    products = e.target.result || [];
   };
 }
 
