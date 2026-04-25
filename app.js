@@ -45,14 +45,26 @@ function addItem() {
 
   div.innerHTML = `
     <select class="product">
-      ${products.map(p => `<option value="${p.price}">${p.name}</option>`).join("")}
+      ${products.map(p => `
+        <option 
+          data-price="${p.price}" 
+          value="${p.name}">
+          ${p.name} - $${p.price}
+        </option>
+      `).join("")}
     </select>
-    <input type="number" value="1">
+
+    <input type="number" value="1" min="1">
+    <span class="lineTotal">$0.00</span>
   `;
 
   document.getElementById("items").appendChild(div);
 
-  new TomSelect(div.querySelector("select"));
+  div.querySelectorAll("select, input").forEach(el =>
+    el.addEventListener("change", updateTotal)
+  );
+
+  updateTotal();
 }
 
 // ---------- TOTAL ----------
