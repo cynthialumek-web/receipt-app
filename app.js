@@ -1,7 +1,7 @@
 let db;
 let products = [];
 
-const SHEET_ID = "PASTE_YOURS_HERE";
+const SHEET_ID = "1jZoAzytMejjdPgRlpgDkOasQHXUAwGJEsvk1UCI9Qcc";
 
 const request = indexedDB.open("ReceiptDB", 3);
 
