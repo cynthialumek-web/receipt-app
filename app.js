@@ -47,8 +47,8 @@ function addItem() {
     <select class="product">
       ${products.map(p => `
         <option data-price="${p.price}">
-          ${p.name}
-        </option>
+  ${p.name}
+</option>
       `).join("")}
     </select>
 
