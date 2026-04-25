@@ -163,11 +163,11 @@ async function syncData() {
     tx.objectStore("clients").put({ id: c.Name, name: c.Name });
   });
 
- productsData.forEach(p => {
+productsData.forEach(p => {
   tx.objectStore("products").put({
     id: p.Name,
     name: p.Name,
-    price: parseFloat(p.Price)
+    price: Number(p.Price)
   });
 });
 
